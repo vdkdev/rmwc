@@ -6,22 +6,22 @@ const fs = require('fs-extra');
 const { exec } = require('child_process');
 
 const processAlFiles = files => {
-	files.forEach(f => {
-		const out = f.replace('./src/', './');
-		const dir = path.dirname(out);
-		console.log('Babel:', f, '-> ', out);
+  files.forEach(f => {
+    const out = f.replace('./src/', './');
+    const dir = path.dirname(out);
+    console.log('Babel:', f, '-> ', out);
 
-		if (!fs.existsSync(dir)) {
-			fs.mkdirSync(dir);
-		}
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir);
+    }
 
-		const cmd = `NODE_ENV=production ./node_modules/.bin/babel ${f} -o ${out}`;
-		exec(cmd);
-	});
+    const cmd = `babel ${f} -o ${out}`;
+    exec(cmd);
+  });
 };
 
 glob('./src/**/!(*.story.js|*.spec.js)', {}, function(er, files) {
-	files = files.concat('./src/index.js');
-	console.log(files);
-	processAlFiles(files);
+  files = files.concat('./src/index.js');
+  console.log(files);
+  processAlFiles(files);
 });
