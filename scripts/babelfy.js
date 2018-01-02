@@ -15,12 +15,12 @@ const processAlFiles = files => {
 			fs.mkdirSync(dir);
 		}
 
-		const cmd = `NODE_ENV=production ./node_modules/.bin/babel ${f} -o ${out}`;
+		const cmd = `babel ${f} -o ${out}`;
 		exec(cmd);
 	});
 };
 
-glob('./src/**/!(*.story.js|*.spec.js)', {}, function(er, files) {
+glob('./src/**/!(*.story.js|*.spec.js)', {}, function (er, files) {
 	files = files.concat('./src/index.js');
 	console.log(files);
 	processAlFiles(files);
