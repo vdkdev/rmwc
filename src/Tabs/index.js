@@ -66,7 +66,7 @@ export const TabBar_: React.ComponentType<TabBarPropsT> = withMDC({
       );
     }
   }
-  );
+);
 
 export class TabBar extends TabBar_ {
   static contextTypes = {
@@ -78,6 +78,11 @@ export class TabBar extends TabBar_ {
   mdcComponentInit() {
     if (!this.context.tabBarScrollerPresent) {
       super.mdcComponentInit();
+      // fixes no md-tab--active class on the tab at 0
+      this.mdcApi.foundation_.adapter_
+        .setTabActiveAtIndex(this.props.activeTabIndex, true);
+      // OR      
+      // this.mdcApi.foundation_.activeTabIndex_ = -1;
     }
   }
 
@@ -90,6 +95,9 @@ export class TabBar extends TabBar_ {
       this.mdcApi = nextContext.tabBarApi;
       //  set activeTabIndex
       this.mdcApi.activeTabIndex = nextProps.activeTabIndex;
+      //  fixes no md-tab--active class on the tab at 0      
+      this.mdcApi.foundation_.adapter_
+        .setTabActiveAtIndex(nextProps.activeTabIndex, true);
       // remove old listeners
       this.mdcUnregisterAllListeners();
       // Hook event handlers
