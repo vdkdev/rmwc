@@ -125,6 +125,10 @@ var TabBar = exports.TabBar = function (_TabBar_) {
     value: function mdcComponentInit() {
       if (!this.context.tabBarScrollerPresent) {
         _get(TabBar.prototype.__proto__ || Object.getPrototypeOf(TabBar.prototype), 'mdcComponentInit', this).call(this);
+        // fixes no md-tab--active class on the tab at 0
+        this.mdcApi.foundation_.adapter_.setTabActiveAtIndex(this.props.activeTabIndex, true);
+        // OR      
+        // this.mdcApi.foundation_.activeTabIndex_ = -1;
       }
     }
   }, {
@@ -137,6 +141,8 @@ var TabBar = exports.TabBar = function (_TabBar_) {
         this.mdcApi = nextContext.tabBarApi;
         //  set activeTabIndex
         this.mdcApi.activeTabIndex = nextProps.activeTabIndex;
+        //  fixes no md-tab--active class on the tab at 0
+        this.mdcApi.foundation_.adapter_.setTabActiveAtIndex(nextProps.activeTabIndex, true);
         // remove old listeners
         this.mdcUnregisterAllListeners();
         // Hook event handlers
